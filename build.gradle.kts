@@ -19,23 +19,28 @@ repositories {
 val ktlint: Configuration by configurations.creating
 
 dependencies {
-	implementation("junit:junit:4.13.1")
 	// Ktlint
 	ktlint("com.pinterest:ktlint:0.39.0")
 
+	// Spring Boot
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("org.springframework.boot:spring-boot-starter-aop")
+
+	// Kotlin
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 
+	// Embedded Tomcat
 	implementation("org.apache.tomcat:tomcat-jdbc")
 
 	// Hystrix
 	implementation("com.netflix.hystrix:hystrix-core:1.5.8")
 	implementation("com.netflix.hystrix:hystrix-metrics-event-stream:1.5.8")
 
+	// Test libraries
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
+	testImplementation("junit:junit:4.13.1")
 }
 
 val outputDir = "${project.buildDir}/reports/ktlint/"
