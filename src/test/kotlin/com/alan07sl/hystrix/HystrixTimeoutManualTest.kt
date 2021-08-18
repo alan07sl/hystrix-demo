@@ -17,6 +17,10 @@ class HystrixTimeoutManualTest {
         assertThat(CommandHelloWorld("Alan").execute(), equalTo("Hello Alan!"))
     }
 
+    /**
+     * Cuando el timeout es más alto que el tiempo de respuesta del servicio, entonces funciona como
+     * es esperado.
+     */
     @Test
     fun givenSvcTimeoutOf100AndDefaultSettings_whenRemoteSvcExecuted_thenReturnSuccess() {
         val config = HystrixCommand.Setter
@@ -27,6 +31,10 @@ class HystrixTimeoutManualTest {
         )
     }
 
+    /**
+     * Cuando el servicio demora más tiempo que el timeout configurado, esperamos una
+     * @see HystrixRuntimeException
+     */
     @Test
     fun givenSvcTimeoutOf10000AndDefaultSettings_whenRemoteSvcExecuted_thenExpectHRE() {
         val config = HystrixCommand.Setter
@@ -153,6 +161,11 @@ class HystrixTimeoutManualTest {
         assertThat(invokeRemoteService(config, 500), equalTo("Success"))
     }
 
+    /**
+     * Esta función es un helper que permite invocar la simulación del servicio remoto,
+     * y en caso de recibir una excepción logearla y continuar con el test.
+     * Al mismo tiempo imprime los tiempos de ejecución definidos para el servicio remoto
+     */
     fun invokeRemoteService(config: HystrixCommand.Setter?, timeout: Long): String? {
         var response: String? = null
         try {

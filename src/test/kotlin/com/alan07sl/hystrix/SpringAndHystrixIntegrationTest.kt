@@ -9,6 +9,7 @@ import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.junit4.SpringRunner
+import kotlin.system.measureTimeMillis
 
 @RunWith(SpringRunner::class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = [HystrixDemoApplication::class])
@@ -19,13 +20,19 @@ class SpringAndHystrixIntegrationTest {
 
     @Test
     fun givenTimeOutOf15000_whenClientCalledWithHystrix_thenExpectHystrixRuntimeException() {
-        Assertions.assertThrows(HystrixRuntimeException::class.java) {
-            hystrixController.withHystrix()
+        val time = measureTimeMillis {
+            Assertions.assertThrows(HystrixRuntimeException::class.java) {
+                hystrixController.withHystrix()
+            }
         }
+        println("Tiempo esperando respuesta: $time")
     }
 
     @Test
     fun givenTimeOutOf15000_whenClientCalledWithOutHystrix_thenExpectSuccess() {
-        assertThat(hystrixController.withOutHystrix(), equalTo("Success"))
+        val time = measureTimeMillis {
+            assertThat(hystrixController.withOutHystrix(), equalTo("Success"))
+        }
+        println("Tiempo esperando respuesta: $time")
     }
 }
